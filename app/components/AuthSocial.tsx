@@ -2,7 +2,7 @@ import { IconType } from "react-icons"
 
 interface AuthSocialProps {
     icon : IconType;
-    onClick ?: ()=>{}
+    onClick ?: ()=>void
 }
 const AuthSocial : React.FC<AuthSocialProps> = ({icon:Icon, onClick}) => {
   return (
