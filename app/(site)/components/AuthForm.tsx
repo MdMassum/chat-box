@@ -4,18 +4,28 @@ import axios from "axios";
 import AuthSocial from "@/app/components/AuthSocial";
 import Button from "@/app/components/Button";
 import Input from "@/app/components/inputs/Input";
-import { useCallback, useState } from "react"
+import { useCallback, useEffect, useState } from "react"
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import { BsGithub, BsGoogle } from "react-icons/bs";
 import toast from "react-hot-toast";
-import { signIn } from "next-auth/react";
+import { signIn, useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
 
 type Variant = 'LOGIN' | 'REGISTER';
 
 const AuthForm = () => {
 
+    const session = useSession();
+    const router = useRouter();
     const [variant, setVariant] = useState<Variant>('LOGIN')
     const [loading, setLoading] = useState(false);
+
+    useEffect(()=>{
+
+        if(session?.status === 'authenticated'){
+            router.push('/users')
+        }
+    },[session?.status,router])
 
     const toggleVariant = useCallback(() => {
         setVariant((prevVariant) => 
@@ -31,39 +41,36 @@ const AuthForm = () => {
         }
     })
 
-    const onSubmit: SubmitHandler<FieldValues> = async (data) =>{
+    const onSubmit: SubmitHandler<FieldValues> = (data) =>{
         setLoading(true);
 
-        try {
-            if (variant === 'REGISTER') {
+        
+        if (variant === 'REGISTER') {
 
-                // API call for register
-                const response = await axios.post("/api/register", data)
+            // API call for register
+            axios.post("/api/register", data)
+            .then(()=>toast("Registered Successfully"))
+            .then(()=> signIn('credentials', data))
+            .catch((error : any)=>toast.error(error.response.data))
+            .finally(()=>setLoading(false))
+        }
 
-                console.log("Registration successful:", response.data);
-                toast.success("Registration successful");
-            }
+        if (variant === 'LOGIN') {
 
-            if (variant === 'LOGIN') {
-
-                signIn('credentials',{
-                    ...data,
-                    redirect:false
-                })
-                .then((callback)=>{
-                    if(callback?.error){
-                        toast.error(callback.error);
-                    }
-                    if(callback?.ok && !callback?.error){
-                        toast.success("Login successful");
-                    }
-                })
-            }
-        } catch (error : any) {
-
-            toast.error(error.response.data);  // Display the error message from the response
-        } finally {
-            setLoading(false);
+            signIn('credentials',{
+                ...data,
+                redirect:false
+            })
+            .then((callback)=>{
+                if(callback?.error){
+                    toast.error(callback.error);
+                }
+                if(callback?.ok && !callback?.error){
+                    toast.success("Login successful");
+                    router.push('/users')
+                }
+            })
+            .finally(()=>setLoading(false));
         }
     }
 
