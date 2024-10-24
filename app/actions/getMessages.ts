@@ -14,6 +14,7 @@ const getMessages = async(conversationId:string)=>{
                 createdAt:'asc'
             }
         })
+        return messages;
     } catch (error:any) {
         return [];
     }
