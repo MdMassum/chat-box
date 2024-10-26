@@ -10,6 +10,7 @@ import { BsGithub, BsGoogle } from "react-icons/bs";
 import toast from "react-hot-toast";
 import { signIn, useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
+import LoadingModal from "@/app/components/Loading/LoadingModal";
 
 type Variant = 'LOGIN' | 'REGISTER';
 
@@ -42,9 +43,8 @@ const AuthForm = () => {
     })
 
     const onSubmit: SubmitHandler<FieldValues> = (data) =>{
-        setLoading(true);
 
-        
+        setLoading(true);
         if (variant === 'REGISTER') {
 
             // API call for register
@@ -90,59 +90,62 @@ const AuthForm = () => {
     }
 
   return (
-    <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
-        <div className="bg-white px-4 py-8 shadow sm:rounded-lg sm:px-10">
+    <>
+        {loading && <LoadingModal loading={loading} /> }
+        <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
+            <div className="bg-white px-4 py-8 shadow sm:rounded-lg sm:px-10">
 
-            <form className="space-y-4" onSubmit={handleSubmit(onSubmit)}>
+                <form className="space-y-4" onSubmit={handleSubmit(onSubmit)}>
 
-                { variant === 'REGISTER' && (
-                    <Input id="name" label="Name" errors={errors} register={register} disabled={loading}/>
-                )}
+                    { variant === 'REGISTER' && (
+                        <Input id="name" label="Name" errors={errors} register={register} disabled={loading}/>
+                    )}
 
-                <Input id="email" label="Email" errors={errors} register={register} disabled={loading}/>
+                    <Input id="email" label="Email" errors={errors} register={register} disabled={loading}/>
 
-                <Input id="password" label="Password" errors={errors} register={register} disabled={loading}/>
+                    <Input id="password" label="Password" errors={errors} register={register} disabled={loading}/>
 
+                    <div>
+                        <Button
+                        fullWidth
+                        type="submit"
+                        disabled={loading}
+                        >{variant === 'LOGIN' ? "Sign in" : "Register"}
+                        </Button>
+                    </div>
+
+                </form>
+                <div className="mt-6">
+                    <div className="relative">
+                        <div className="absolute inset-0 flex items-center">
+                            <div className="w-full border-t border-gray-300"/>
+                        </div>
+                        <div className="relative flex justify-center text-sm">
+                            <span className="bg-white px-2 text-gray-500 ">
+                                or continue with
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div className="mt-6 flex gap-2">
+                    <AuthSocial icon={BsGithub} onClick={() => socialAction('github')} />
+                    <AuthSocial icon={BsGoogle} onClick={() => socialAction('google')}/>
+                </div>  
+
+            <div className="flex gap-2 justify-center text-sm mt-6 px-2 text-gray-500">
                 <div>
-                    <Button
-                     fullWidth
-                     type="submit"
-                     disabled={loading}
-                     >{variant === 'LOGIN' ? "Sign in" : "Register"}
-                     </Button>
+                    {variant === "LOGIN" ? "New to ChatBox?" : "Already Have an Account?"}
                 </div>
-
-            </form>
-            <div className="mt-6">
-                <div className="relative">
-                    <div className="absolute inset-0 flex items-center">
-                        <div className="w-full border-t border-gray-300"/>
-                    </div>
-                    <div className="relative flex justify-center text-sm">
-                        <span className="bg-white px-2 text-gray-500 ">
-                            or continue with
-                        </span>
-                    </div>
+                <div
+                onClick={toggleVariant}
+                className="underline cursor-pointer">
+                    {variant === "LOGIN" ? "Create an Account" : "Login"}
                 </div>
             </div>
-            <div className="mt-6 flex gap-2">
-                <AuthSocial icon={BsGithub} onClick={() => socialAction('github')} />
-                <AuthSocial icon={BsGoogle} onClick={() => socialAction('google')}/>
-            </div>  
-
-        <div className="flex gap-2 justify-center text-sm mt-6 px-2 text-gray-500">
-            <div>
-                {variant === "LOGIN" ? "New to ChatBox?" : "Already Have an Account?"}
             </div>
-            <div
-            onClick={toggleVariant}
-            className="underline cursor-pointer">
-                {variant === "LOGIN" ? "Create an Account" : "Login"}
-            </div>
-        </div>
-        </div>
 
-    </div>
+        </div>
+    </>
   )
 }
 

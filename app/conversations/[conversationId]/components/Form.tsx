@@ -7,6 +7,7 @@ import { HiPaperAirplane, HiPhoto } from "react-icons/hi2";
 import MessageInput from "./MessageInput";
 import { CldUploadButton } from 'next-cloudinary';
 import { useState } from "react";
+import LoadingModal from "@/app/components/Loading/LoadingModal";
 
 const Form: React.FC = () => {
   const { conversationId } = useConversation();
@@ -19,7 +20,7 @@ const Form: React.FC = () => {
   });
 
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
-    setIsLoading(true);
+
     try {
       setValue('message', '', { shouldValidate: true });
       await axios.post('/api/messages', {
@@ -28,12 +29,11 @@ const Form: React.FC = () => {
       });
     } catch (error) {
       console.error("Error sending message:", error);
-    } finally {
-      setIsLoading(false);
     }
   };
 
   const handleUpload = async (result: any) => {
+    setIsLoading(true);
     try {
       await axios.post('/api/messages', {
         image: result?.info?.secure_url,
@@ -42,27 +42,33 @@ const Form: React.FC = () => {
     } catch (error) {
       console.error("Error uploading image:", error);
     }
+    finally{
+      setIsLoading(false);
+    }
   };
 
   return (
-    <div className="py-4 px-4 bg-white border-t flex items-center gap-2 md:gap-4 w-full">
-      <CldUploadButton
-        options={{ maxFiles: 1 }}
-        onSuccess={handleUpload} // Updated event handler
-        uploadPreset={process.env.NEXT_PUBLIC_CLOUDINARY_PRESET || 'b1wcmapc'}>
-        <HiPhoto size={30} className="text-purple-600" />
-      </CldUploadButton>
+    <>
+      {isLoading && <LoadingModal loading={isLoading} /> }
+      <div className="py-4 px-4 bg-white border-t flex items-center gap-2 md:gap-4 w-full">
+        <CldUploadButton
+          options={{ maxFiles: 1 }}
+          onSuccess={handleUpload} // Updated event handler
+          uploadPreset={process.env.NEXT_PUBLIC_CLOUDINARY_PRESET || 'b1wcmapc'}>
+          <HiPhoto size={30} className="text-purple-600" />
+        </CldUploadButton>
 
-      <form onSubmit={handleSubmit(onSubmit)} className="flex items-center gap-2 md:gap-4 w-full">
-        <MessageInput id="message" register={register} required placeholder="Write a message" errors={errors} />
-        <button
-          type="submit"
-          className={`rounded-full p-2 ${isLoading ? 'bg-sky-300' : 'bg-sky-500'} cursor-pointer hover:bg-sky-600 transition`}
-          disabled={isLoading}>
-          <HiPaperAirplane className="text-white" size={18} />
-        </button>
-      </form>
-    </div>
+        <form onSubmit={handleSubmit(onSubmit)} className="flex items-center gap-2 md:gap-4 w-full">
+          <MessageInput id="message" register={register} required placeholder="Write a message" errors={errors} />
+          <button
+            type="submit"
+            className={`rounded-full p-2 ${isLoading ? 'bg-sky-300' : 'bg-sky-500'} cursor-pointer hover:bg-sky-600 transition`}
+            disabled={isLoading}>
+            <HiPaperAirplane className="text-white" size={18} />
+          </button>
+        </form>
+      </div>
+    </>
   );
 };
 
