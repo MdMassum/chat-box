@@ -12,6 +12,7 @@ import axios from "axios";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import { FaTrash } from "react-icons/fa"
+import AvatarGroup from "@/app/components/AvatarGroup";
 
 interface ProfileDrawerProps {
     data: Conversation & { user: User[] };
@@ -92,18 +93,38 @@ const ProfileDrawer: React.FC<ProfileDrawerProps> = ({ data, isOpen, onClose }) 
                             />
 
                             <Dialog.Title className="text-lg font-semibold">{title}</Dialog.Title>
-                            <Dialog.Description className="mt-2 text-sm text-gray-500">
-                                {otherUser.email}
-                            </Dialog.Description>
+                            {
+                                !data.isGroup && 
+                                <Dialog.Description className="mt-2 text-sm text-gray-500">
+                                    {otherUser.email}
+                                </Dialog.Description>
+                            }
 
                             <div className="mt-4 flex flex-col items-center">
-                                <Avatar user={otherUser} />
+                                {data.isGroup ? (
+                                    <AvatarGroup users={data.user}/>
+                                ) : (
+                                    <Avatar user={otherUser}/>
+                                )}
                                 <p className="mt-2 text-sm">
                                     <span className="font-medium">{statusText}</span>
                                 </p>
-                                <p className="mt-2 text-sm">
-                                    Joined on: <span className="font-medium">{joinedDate}</span>
-                                </p>
+                                {
+                                    !data.isGroup && 
+                                    (<p className="mt-2 text-sm">
+                                        Joined on: <span className="font-medium">{joinedDate}</span>
+                                    </p>)
+                                }
+                                
+                                {data.isGroup && (
+                                    <div>
+                                        <dt className="text-sm font-medium text-gray-500 sm:w-40 sm:flex-shrink-0 ">Emails:</dt>
+                                        <dd className="mt-1 text-sm text-gray-900 sm:col-span-2">
+                                            {data.user.map((user)=>user.email).join(', ')}
+                                        </dd>
+                                    </div>
+                                )}
+                                
                                 <button onClick={onDelete}
                                 className="bg-rose-600 hover:bg-rose-700 w-32 rounded-lg mt-6 h-8 text-sm text-white flex items-center justify-center gap-2">
                                     <FaTrash size={16} />

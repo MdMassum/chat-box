@@ -18,7 +18,7 @@ export async function POST (req: Request){
         }
 
         if(isGroup && (!members || members.length < 2 || !name)){
-            return new NextResponse("Invalid Data", {status : 400});
+            return new NextResponse("Select atleast 2 member", {status : 400});
         }
 
         if(isGroup){     // for creating group chat

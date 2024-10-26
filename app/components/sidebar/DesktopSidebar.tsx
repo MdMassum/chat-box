@@ -19,7 +19,7 @@ const DesktopSidbar:React.FC<DesktopSidbarProps> = ({currentUser}) => {
       <SettingModal currentUser={currentUser} isOpen={isOpen} onClose={()=>setOpen(false)}/>
 
       <div className='hidden md:fixed md:inset-y-0 md:left-0 md:z-40 md:w-28 xl:px-6 md:overflow-y-auto md:bg-white md:border-r-[1px] md:pb-4 md:flex md:flex-col justify-between'>
-        <nav className='mt-4 flex flex-col justify-between'>
+        <nav className='hidden mt-4 md:flex flex-col justify-between'>
           <ul role='list' className='flex flex-col items-center space-y-1'>
             {
               routes.map((item)=>(
