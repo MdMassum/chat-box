@@ -33,7 +33,8 @@ const MessageBox :React.FC<MessageBoxProps> = ({isLast, data}) => {
 
     const message = clsx('text-sm w-fit overflow-hidden', isOwn ? 'bg-sky-500 text-white' : 'bg-gray-100', data.image ? 'rounded-md p-0' : 'rounded-full py-2 px-3')
 
-    const conversationId = useConversation();
+    const {conversationId} = useConversation();
+    
     useEffect(() => {
       axios.post(`/api/conversations/${conversationId}/seen`)
     }, [conversationId])
@@ -66,6 +67,13 @@ const MessageBox :React.FC<MessageBoxProps> = ({isLast, data}) => {
             )
           }
         </div>
+        {
+          isLast && isOwn && seenList.length > 0 && (
+            <div className="text-xs font-light text-gray-500">
+              {`Seen By ${seenList}`}
+            </div>
+          )
+        }
       </div>
     </div>
   )

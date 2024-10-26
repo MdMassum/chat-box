@@ -5,7 +5,6 @@ import prisma from '@/app/libs/prismadb'
 export async function POST (req : Request){
 
     try {
-        console.log("massum")
         const currentUser = await getCurrentUser();
         const body = await req.json();
         const{
