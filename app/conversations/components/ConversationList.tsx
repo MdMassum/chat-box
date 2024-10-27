@@ -102,6 +102,7 @@ const ConversationList:React.FC<ConversationListProps> = ({initialItems, users})
                   </div>
               </div>
               {
+                items.length<1 ? (<p className='ml-6'>No Chats Available!!</p>) : 
                   items.map((item)=>(
                       <ConversationBox key={item.id} data={item} selected={conversationId === item.id} />
                   ))

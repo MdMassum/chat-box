@@ -60,7 +60,7 @@ const GroupChatModel: React.FC<GroupChatModelProps> = ({ isOpen, onClose, users 
                     />
                     <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col items-center space-y-4">
                         <div className='w-full'>
-                            <h2 className='text-2xl text-sky-500 font-semibold'>Create a Group Chat</h2>
+                            <h2 className='text-2xl text-purple-500 font-semibold'>Create a Group Chat</h2>
                             <p className='text-xs'>Create chat with more than 2 people:</p>
                         </div>
 
@@ -91,7 +91,7 @@ const GroupChatModel: React.FC<GroupChatModelProps> = ({ isOpen, onClose, users 
                         {/* Submit Button */}
                         <button
                             type="submit"
-                            className="w-full mt-8 px-4 py-2 text-white bg-sky-500 rounded-md hover:bg-sky-600 transition"
+                            className="w-full mt-8 px-4 py-2 text-white bg-gradient-to-l from-purple-400 to-purple-900  hover:opacity-95 transition rounded-md"
                             disabled={loading}
                         >
                             Create

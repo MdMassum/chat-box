@@ -87,6 +87,7 @@ const Body :React.FC<bodyProps> = ({initialMessages}) => {
             />
           ))
         }
+        <div ref={bottomRef} />
     </div>
   )
 }

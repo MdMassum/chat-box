@@ -55,14 +55,14 @@ const Form: React.FC = () => {
           options={{ maxFiles: 1 }}
           onSuccess={handleUpload} // Updated event handler
           uploadPreset={process.env.NEXT_PUBLIC_CLOUDINARY_PRESET || 'b1wcmapc'}>
-          <HiPhoto size={30} className="text-purple-600" />
+          <HiPhoto size={30} className="text-purple-700" />
         </CldUploadButton>
 
         <form onSubmit={handleSubmit(onSubmit)} className="flex items-center gap-2 md:gap-4 w-full">
           <MessageInput id="message" register={register} required placeholder="Write a message" errors={errors} />
           <button
             type="submit"
-            className={`rounded-full p-2 ${isLoading ? 'bg-sky-300' : 'bg-sky-500'} cursor-pointer hover:bg-sky-600 transition`}
+            className={`rounded-full p-2 ${isLoading ? 'bg-sky-300' : 'bg-gradient-to-bl from-purple-900 to-purple-400'} cursor-pointer hover:opacity-95 transition`}
             disabled={isLoading}>
             <HiPaperAirplane className="text-white" size={18} />
           </button>

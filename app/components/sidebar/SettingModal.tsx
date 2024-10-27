@@ -78,7 +78,7 @@ const SettingModal: React.FC<SettingModalProps> = ({ currentUser, isOpen, onClos
                                 uploadPreset={process.env.NEXT_PUBLIC_CLOUDINARY_PRESET || 'b1wcmapc'}
                             >
                                 <button onClick={() => fileInputRef.current?.click()}
-                                className="w-full mt-2 px-4 py-1 text-white bg-sky-500 rounded-md hover:bg-sky-600 transition">
+                                className="w-full mt-2 px-4 py-1 text-white bg-gradient-to-r from-purple-400 to-purple-900 hover:opacity-90 rounded-md transition">
                                     Change
                                 </button>
                             </CldUploadButton>
@@ -116,7 +116,7 @@ const SettingModal: React.FC<SettingModalProps> = ({ currentUser, isOpen, onClos
                         {/* Submit Button */}
                         <button
                             type="submit"
-                            className="w-full mt-8 px-4 py-2 text-white bg-sky-500 rounded-md hover:bg-sky-600 transition"
+                            className="w-full mt-8 px-4 py-2 text-white bg-gradient-to-r from-purple-400 to-purple-900 hover:opacity-90 rounded-md transition"
                         >
                             Save Changes
                         </button>

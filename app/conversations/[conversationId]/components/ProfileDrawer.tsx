@@ -138,7 +138,7 @@ const ProfileDrawer: React.FC<ProfileDrawerProps> = ({ data, isOpen, onClose }) 
                                     )}
                                     
                                     <button onClick={onDelete}
-                                    className="bg-rose-600 hover:bg-rose-700 w-32 rounded-lg mt-6 h-8 text-sm text-white flex items-center justify-center gap-2">
+                                    className=" hover:opacity-95 bg-gradient-to-bl from-rose-800 to-rose-400 w-32 rounded-lg mt-6 h-8 text-sm text-white flex items-center justify-center gap-2">
                                         <FaTrash size={16} />
                                         <p>Delete chat</p>
                                     </button>
