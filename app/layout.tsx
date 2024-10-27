@@ -18,23 +18,26 @@ const geistMono = localFont({
 
 export const metadata: Metadata = {
   title: "ChatBox",
-  description: "This is a chat app built using nextjs",
+  description: "This is a chat app built using Next.js",
 };
 
 export default function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode;
-}>) {
+}) {
   return (
     <html lang="en">
+      <head>
+        <link rel="icon" href="/assets/favicon.ico" type="image/png" />
+      </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <AuthContext>
-        <ToasterContext/> {/* for notification  */}
-        <ActiveStatus/>
-        {children}
+          <ToasterContext /> {/* for notification */}
+          <ActiveStatus />
+          {children}
         </AuthContext>
       </body>
     </html>

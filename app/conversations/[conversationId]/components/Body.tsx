@@ -6,7 +6,7 @@ import { useEffect, useRef, useState } from "react"
 import MessageBox from "./MessageBox"
 import axios from "axios"
 import { pusherClient } from "@/app/libs/pusher"
-import { debounce, find } from "lodash"
+import { find } from "lodash"
 
 interface bodyProps{
   initialMessages : FullMessageType[]
@@ -22,29 +22,22 @@ const Body :React.FC<bodyProps> = ({initialMessages}) => {
 
     const {conversationId} = useConversation();
 
-    const markMessagesAsSeen = debounce(async () => {
-      try {
-        await axios.post(`/api/conversations/${conversationId}/seen`);
-      } catch (error) {
-        console.error('Error marking messages as seen:', error);
-      }
-    }, 5000);
     
 
     useEffect(() => {
-      markMessagesAsSeen();
+      axios.post(`/api/conversations/${conversationId}/seen`);
     }, [conversationId])
 
     useEffect(() => {
-      if (!conversationId) return;
       
       pusherClient.subscribe(conversationId);
+      axios.post(`/api/conversations/${conversationId}/seen`);
       scrollToBottom()
 
       // new message handler
       const messageHandler = (message : FullMessageType) =>{
-        markMessagesAsSeen();
-        setMessages((current)=>{
+
+        setMessages(current=>{
           
           if(find(current, {id:message.id})){
             return current;
@@ -57,8 +50,6 @@ const Body :React.FC<bodyProps> = ({initialMessages}) => {
 
       //updated message handler
       const UpdatedmessageHandler = (newMessage : FullMessageType) =>{
-
-        markMessagesAsSeen();
 
         setMessages((current)=> current.map((currentMessage)=>
           currentMessage.id === newMessage.id ? newMessage : currentMessage

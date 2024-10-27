@@ -16,7 +16,7 @@ export async function DELETE(
         const currentUser = await getCurrentUser();
 
         // Check if the user is authenticated
-        if (!currentUser?.id || !currentUser?.email) {
+        if (!currentUser?.id) {
             return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
         }
 
@@ -42,12 +42,11 @@ export async function DELETE(
             }
         })
 
-        existingConversation.user.forEach((user)=>{
+        existingConversation.user.forEach(user=>{
             if(user.email){
                 pusherServer.trigger(user.email,'conversation:remove', existingConversation);
             }
         })
-
         return NextResponse.json(deletedConversation);
         
     } catch (error: any) {
