@@ -93,7 +93,7 @@ const SettingModal: React.FC<SettingModalProps> = ({ currentUser, isOpen, onClos
                             <input
                                 type="text"
                                 id="name"
-                                value={name}
+                                value={name || ''}
                                 onChange={(e) => setName(e.target.value)}
                                 className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring focus:ring-sky-300"
                             />
@@ -105,7 +105,7 @@ const SettingModal: React.FC<SettingModalProps> = ({ currentUser, isOpen, onClos
                                 Email
                             </label>
                             <input
-                                value={currentUser.email}
+                                value={currentUser.email || ''}
                                 type="email"
                                 id="email"
                                 disabled

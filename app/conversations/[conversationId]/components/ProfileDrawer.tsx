@@ -19,7 +19,7 @@ import useActiveList from "@/app/hooks/useActiveList";
 interface ProfileDrawerProps {
     data: Conversation & { user: User[] };
     isOpen?: boolean;
-    onClose?: () => void;
+    onClose : () => void;
 }
 
 const ProfileDrawer: React.FC<ProfileDrawerProps> = ({ data, isOpen, onClose }) => {
@@ -149,7 +149,7 @@ const ProfileDrawer: React.FC<ProfileDrawerProps> = ({ data, isOpen, onClose }) 
                 </Dialog>
             </Transition.Root>
         </>
-    );
+    ); 
 };
 
 export default ProfileDrawer;

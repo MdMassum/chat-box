@@ -81,7 +81,7 @@ const GroupChatModel: React.FC<GroupChatModelProps> = ({ isOpen, onClose, users 
                                 label="Members"
                                 options={users.map(user => ({
                                     value: user.id,
-                                    label: user.name
+                                    label: user.name || "Unknown"
                                 }))}
                                 onChange={(value) => setValue('members', value, { shouldValidate: true })}
                                 value={members}
