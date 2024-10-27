@@ -3,6 +3,7 @@ import localFont from "next/font/local";
 import "./globals.css";
 import ToasterContext from "./context/ToasterContext";
 import AuthContext from "./context/AuthContext";
+import ActiveStatus from "./components/ActiveStatus";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -32,6 +33,7 @@ export default function RootLayout({
       >
         <AuthContext>
         <ToasterContext/> {/* for notification  */}
+        <ActiveStatus/>
         {children}
         </AuthContext>
       </body>

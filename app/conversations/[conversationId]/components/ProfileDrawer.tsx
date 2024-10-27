@@ -3,7 +3,7 @@
 import { Fragment, useCallback, useMemo, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { format } from 'date-fns';
-import { HiX } from "react-icons/hi";  // Importing the cross icon
+import { HiX } from "react-icons/hi"; 
 import Avatar from "@/app/components/Avatar";
 import { Conversation, User } from "@prisma/client";
 import useOtherUser from "@/app/hooks/useOtherUser";
@@ -14,6 +14,7 @@ import { useRouter } from "next/navigation";
 import { FaTrash } from "react-icons/fa"
 import AvatarGroup from "@/app/components/AvatarGroup";
 import LoadingModal from "@/app/components/Loading/LoadingModal";
+import useActiveList from "@/app/hooks/useActiveList";
 
 interface ProfileDrawerProps {
     data: Conversation & { user: User[] };
@@ -24,6 +25,9 @@ interface ProfileDrawerProps {
 const ProfileDrawer: React.FC<ProfileDrawerProps> = ({ data, isOpen, onClose }) => {
     const otherUser = useOtherUser(data);
 
+    const {members} = useActiveList();
+    const isActive = members.indexOf(otherUser?.email!) !== -1;
+
     const joinedDate = useMemo(() => {
         return format(new Date(otherUser.createdAt), 'PP');
     }, [otherUser.createdAt]);
@@ -33,8 +37,13 @@ const ProfileDrawer: React.FC<ProfileDrawerProps> = ({ data, isOpen, onClose }) 
     }, [data.name, otherUser.name]);
 
     const statusText = useMemo(() => {
-        return data.isGroup ? `${data.user.length} members` : 'Active';
-    }, [data]);
+        if(data.isGroup){
+            return `${data.user.length} members`
+        }
+        else{
+            return isActive ? 'Active' : 'Offline';
+        }
+    }, [data, isActive]);
 
     const router = useRouter()
     const {conversationId} = useConversation();
