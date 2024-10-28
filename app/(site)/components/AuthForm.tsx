@@ -134,7 +134,7 @@ const AuthForm = () => {
 
             <div className="flex gap-2 justify-center text-sm mt-6 px-2 text-gray-500">
                 <div>
-                    {variant === "LOGIN" ? "New to ChatBox?" : "Already Have an Account?"}
+                    {variant === "LOGIN" ? "New to ChatApp?" : "Already Have an Account?"}
                 </div>
                 <div
                 onClick={toggleVariant}

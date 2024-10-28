@@ -17,7 +17,7 @@ const geistMono = localFont({
 });
 
 export const metadata: Metadata = {
-  title: "ChatBox",
+  title: "ChatApp",
   description: "This is a chat app built using Next.js",
 };
 
